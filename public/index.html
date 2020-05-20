@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+  canvas{
+    background: #000;
+  }
+  </style>
+</head>
+<body>
+  <canvas id="test"></canvas>
+  <script src="<%= htmlWebpackPlugin.files.js %>"></script>
+  <script>
+  new AutoTs.RedPacket({
+    imgUrl: '//s.autoimg.cn/www/site/livechannel/images/',
+    container: 'test',
+    countdownTime: 5,
+    remainTime: 30,
+    rainType: [
+      { score: 1, speed: 1, ratio: 7 },
+      { score: 2, speed: 3, ratio: 2 },
+      { score: 3, speed: 5, useless: 70, ratio: 1 }
+    ],
+    onDurationCallBack(time, count) {
+      console.log(time, count);
+    },
+    onStartCallBack() {
+      console.log('game start');
+    },
+    onEndedCallBack(count) {
+      console.log(`game over! your score: ${count}`);
+    }
+  })
+  </script>
+</body>
+</html>
