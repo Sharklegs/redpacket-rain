@@ -19,19 +19,19 @@
     imgUrl: '//s.autoimg.cn/www/site/livechannel/images/',
     container: 'test',
     countdownTime: 5,
-    remainTime: 30,
+    remainTime: 10,
     rainType: [
       { score: 1, speed: 1, ratio: 7 },
       { score: 2, speed: 3, ratio: 2 },
       { score: 3, speed: 5, useless: 70, ratio: 1 }
     ],
-    onDurationCallBack(time, count) {
+    onDuration(time, count) {
       console.log(time, count);
     },
-    onStartCallBack() {
+    onStart() {
       console.log('game start');
     },
-    onEndedCallBack(count) {
+    onEnded(count) {
       console.log(`game over! your score: ${count}`);
     }
   })

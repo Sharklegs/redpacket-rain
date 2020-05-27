@@ -28,13 +28,13 @@ const redPacket = new RedPacket({
     { score: 2, speed: 1, ratio: 2 },
     { score: 10, speed: 1, useless: 70, ratio: 1 }
   ],
-  onDurationCallBack(time, count) {
+  onDuration(time, count) {
     console.log(time, count);
   },
-  onStartCallBack() {
+  onStart() {
     console.log('game start');
   },
-  onEndedCallBack(count) {
+  onEnded(count) {
     console.log(`game over! your score: ${count}`);
   }
 })
@@ -65,9 +65,9 @@ const redPacket = new RedPacket(config);
 | countdownTime  | number | 0 | YES | count down from ( <= 5 ) |
 | remainTime  | number | 30  | YES | game duration time |
 | rainType  | ({ score: number, speed: number, useless?: number, ratio: number })[] | -- | NO | type of rain <br> 1. if pic has useless content which like glowing shadow, make sure four sides distance equal <br> 2. ratio sum of all type must equal 10 |
-| onDurationCallBack      | Function                       | --               | YES | callback during game remaining countdown <br> ( time, count ) |
-| onStartCallBack     | Function                       | --               | YES | callback when game start |
-| onEndedCallBack   | Function                       | --               | YES | callback when game over <br>( score ) |
+| onDuration      | Function                       | --               | YES | callback during game remaining countdown <br> ( time, count ) |
+| onStart     | Function                       | --               | YES | callback when game start |
+| onEnded   | Function                       | --               | YES | callback when game over <br>( score ) |
 
 
 you can stop during the game by using:

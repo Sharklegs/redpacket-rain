@@ -186,9 +186,9 @@ class RedPacket {
     container: string,
     countdownTime: number,
     remainTime: number,
-    onDurationCallBack?: (remainTime: number, count: number) => void,
-    onEndedCallBack?: (count: number) => void,
-    onStartCallBack?: () => void,
+    onDuration?: (remainTime: number, count: number) => void,
+    onEnded?: (count: number) => void,
+    onStart?: () => void,
   }) {
     const canvas = <HTMLCanvasElement>document.getElementById(config.container);
     canvas.style.width = `${window.innerWidth}px`;
@@ -205,9 +205,9 @@ class RedPacket {
     this.ctx.scale(devicePixelRatio, devicePixelRatio);
     this.countdownTime = config.countdownTime || 0;
     this.remainTime = config.remainTime || 30;
-    this.onDurationCallBack = config.onDurationCallBack || function () {};
-    this.onEndedCallBack = config.onEndedCallBack || function () {};
-    this.onStartCallBack = config.onStartCallBack || function () {};
+    this.onDurationCallBack = config.onDuration || function () {};
+    this.onEndedCallBack = config.onEnded || function () {};
+    this.onStartCallBack = config.onStart || function () {};
     this.count = 0;
     this.init();
   }

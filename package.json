@@ -35,5 +35,8 @@
   "bugs": {
     "url": "https://github.com/Sharklegs/redpacket-rain/issues"
   },
-  "homepage": "https://github.com/Sharklegs/redpacket-rain#readme"
+  "homepage": "https://github.com/Sharklegs/redpacket-rain#readme",
+  "directories": {
+    "lib": "lib"
+  }
 }
