@@ -85,9 +85,9 @@ declare class RedPacket {
         container: string;
         countdownTime: number;
         remainTime: number;
-        onDurationCallBack?: (remainTime: number, count: number) => void;
-        onEndedCallBack?: (count: number) => void;
-        onStartCallBack?: () => void;
+        onDuration?: (remainTime: number, count: number) => void;
+        onEnded?: (count: number) => void;
+        onStart?: () => void;
     });
     protected init(): Promise<void>;
     protected countDown(): void;

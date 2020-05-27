@@ -1,6 +1,6 @@
 /*!
  * @autots/redpacket v1.0.0
- * Last Modified @ 2020-5-20 5:17:11 PM
+ * Last Modified @ 2020-5-27 11:17:23 AM
  * Released under the MIT License.
  */
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -297,9 +297,9 @@ var RedPacket = /** @class */ (function () {
         this.ctx.scale(devicePixelRatio, devicePixelRatio);
         this.countdownTime = config.countdownTime || 0;
         this.remainTime = config.remainTime || 30;
-        this.onDurationCallBack = config.onDurationCallBack || function () { };
-        this.onEndedCallBack = config.onEndedCallBack || function () { };
-        this.onStartCallBack = config.onStartCallBack || function () { };
+        this.onDurationCallBack = config.onDuration || function () { };
+        this.onEndedCallBack = config.onEnded || function () { };
+        this.onStartCallBack = config.onStart || function () { };
         this.count = 0;
         this.init();
     }
