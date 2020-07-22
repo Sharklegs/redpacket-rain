@@ -5,7 +5,16 @@ import requestAnimationFramePolyfill from './raf';
 
 const { requestAnimationFrame, cancelAnimationFrame } = requestAnimationFramePolyfill();
 const devicePixelRatio = window.devicePixelRatio > 1 ? 2 : 1; // retina 2倍 普通 1倍
+const isTouch = 'ontouchstart' in window;
 
+function getPos(e: any) {
+  const position = e.changedTouches ? e.changedTouches[0] : e;
+  // console.log(position);
+  return {
+    x: position.clientX,
+    y: position.clientY
+  };
+}
 interface imgDom {
   width: number,
   height: number,
@@ -366,14 +375,11 @@ class RedPacket {
 
   protected onClick() {
     // 修改成mousedown事件
-    this.canvasDom.addEventListener('mousedown', (e) => {
+    this.canvasDom.addEventListener(isTouch ? 'touchstart' : 'mousedown', (e) => {
       if (this.finished) {
         return;
       }
-      const pos = {
-        x: e.clientX,
-        y: e.clientY,
-      };
+      const pos = getPos(e);
       const clickedPacket: any[] = [];
       this.rainList.forEach((item, index) => {
       // 判断点击位置是否在该金币范围内

@@ -1,6 +1,6 @@
 /*!
  * @autots/redpacket v1.0.0
- * Last Modified @ 2020-5-27 11:17:23 AM
+ * Last Modified @ 2020-6-10 2:51:47 ├F10: PM┤
  * Released under the MIT License.
  */
 (function webpackUniversalModuleDefinition(root, factory) {
