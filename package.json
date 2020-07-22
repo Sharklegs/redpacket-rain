@@ -1,6 +1,6 @@
 {
   "name": "@autots/redpacket",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "A redpacket rain component based on typescript and vanilla js",
   "main": "dist/redpacket.umd.js",
   "module": "lib/redpacket.js",
