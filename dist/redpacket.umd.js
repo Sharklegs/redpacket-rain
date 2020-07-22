@@ -1,6 +1,6 @@
 /*!
- * @autots/redpacket v1.0.0
- * Last Modified @ 2020-6-10 2:51:47 ├F10: PM┤
+ * @autots/redpacket v2.0.0
+ * Last Modified @ 2020-7-22 5:28:22 ├F10: PM┤
  * Released under the MIT License.
  */
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -175,6 +175,15 @@ __webpack_require__(3);
 var raf_1 = __importDefault(__webpack_require__(4));
 var _a = raf_1.default(), requestAnimationFrame = _a.requestAnimationFrame, cancelAnimationFrame = _a.cancelAnimationFrame;
 var devicePixelRatio = window.devicePixelRatio > 1 ? 2 : 1; // retina 2倍 普通 1倍
+var isTouch = 'ontouchstart' in window;
+function getPos(e) {
+    var position = e.changedTouches ? e.changedTouches[0] : e;
+    // console.log(position);
+    return {
+        x: position.clientX,
+        y: position.clientY
+    };
+}
 function random(min, max) {
     return Math.random() * (max - min) + min;
 }
@@ -448,14 +457,11 @@ var RedPacket = /** @class */ (function () {
     RedPacket.prototype.onClick = function () {
         var _this = this;
         // 修改成mousedown事件
-        this.canvasDom.addEventListener('mousedown', function (e) {
+        this.canvasDom.addEventListener(isTouch ? 'touchstart' : 'mousedown', function (e) {
             if (_this.finished) {
                 return;
             }
-            var pos = {
-                x: e.clientX,
-                y: e.clientY,
-            };
+            var pos = getPos(e);
             var clickedPacket = [];
             _this.rainList.forEach(function (item, index) {
                 // 判断点击位置是否在该金币范围内
