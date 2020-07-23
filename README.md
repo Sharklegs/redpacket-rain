@@ -28,6 +28,7 @@ const redPacket = new RedPacket({
     { score: 2, speed: 1, ratio: 2 },
     { score: 10, speed: 1, useless: 70, ratio: 1 }
   ],
+  angle: 0.01,
   onDuration(time, count) {
     console.log(time, count);
   },
@@ -62,6 +63,7 @@ const redPacket = new RedPacket(config);
 |:----------:|:-----------------------------:|:-----------:|:----:|:--------------------------|
 | imgUrl                 | string | --               | NO  | base URL of images  |
 | container        | string | --             | NO | id of the canvas element |
+| angle  | number | 0.3 | YES | drop angle |
 | countdownTime  | number | 0 | YES | count down from ( <= 5 ) |
 | remainTime  | number | 30  | YES | game duration time |
 | rainType  | ({ score: number, speed: number, useless?: number, ratio: number })[] | -- | NO | type of rain <br> 1. if pic has useless content which like glowing shadow, make sure four sides distance equal <br> 2. ratio sum of all type must equal 10 |

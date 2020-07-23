@@ -29,6 +29,7 @@ interface baseConfig {
   ratio?: number;
   score?: number;
   opacity?: number;
+  angle?: number;
 }
 function random(min: number, max: number): number {
   return Math.random() * (max - min) + min;
@@ -85,10 +86,11 @@ class Packet {
   readonly height: number;
   readonly img: HTMLImageElement;
   readonly speed: number;
+  readonly angle: number;
   opacity?: number;
   constructor(config: baseConfig) {
     const {
-      type, x, y, img, speed, ratio = 1,
+      type, x, y, img, speed, ratio = 1, angle,
     } = config;
     this.type = type;
     this.x = x; // x轴位置
@@ -98,6 +100,7 @@ class Packet {
     this.height = img.height / 2 * this.ratio; // 红包种类
     this.img = img.imgDom; // 前面缓存好的金币图片
     this.speed = speed; // 金币的下落速度
+    this.angle = angle;
   }
 
   draw(ctx: CanvasRenderingContext2D) {
@@ -109,7 +112,7 @@ class Packet {
       this.height,
     );
     this.y += this.speed;
-    this.x -= this.speed * 0.3;
+    this.x -= this.speed * this.angle;
   }
 }
 
@@ -187,6 +190,7 @@ class RedPacket {
   protected finished: boolean;
   protected moveAnimation: any;
   readonly imgUrl: string;
+  readonly angle: number;
   readonly rainType: { score: number; speed: number; useless?: number; ratio: number; }[];
 
   constructor(config: {
@@ -195,6 +199,7 @@ class RedPacket {
     container: string,
     countdownTime: number,
     remainTime: number,
+    angle: number,
     onDuration?: (remainTime: number, count: number) => void,
     onEnded?: (count: number) => void,
     onStart?: () => void,
@@ -209,6 +214,7 @@ class RedPacket {
     }
     this.canvasDom = canvas;
     this.imgUrl = config.imgUrl;
+    this.angle = config.angle || 0.3;
     this.rainType = config.rainType; // 红包雨种类
     this.ctx = canvas.getContext('2d');
     this.ctx.scale(devicePixelRatio, devicePixelRatio);
@@ -352,6 +358,7 @@ class RedPacket {
     const boundary = window.innerWidth - 1200 <= 200 ? 100 : (window.innerWidth - 1200) / 2;
     const count = Math.floor(random(1, 4));
     const meteor = new Meteor({
+      angle: 0.3,
       x: random(boundary, window.innerWidth - boundary),
       y: -10,
       img: this.imgList.meteor,
@@ -363,6 +370,7 @@ class RedPacket {
       const randomNum = random(0, 10);
       const type = this.getTypeByRatio(randomNum);
       const rain = new Packet({
+        angle: this.angle,
         type,
         x: random(boundary, window.innerWidth - boundary),
         y: -10,
