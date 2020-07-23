@@ -15,6 +15,7 @@ interface baseConfig {
     ratio?: number;
     score?: number;
     opacity?: number;
+    angle?: number;
 }
 declare class Packet {
     readonly type: number;
@@ -25,6 +26,7 @@ declare class Packet {
     readonly height: number;
     readonly img: HTMLImageElement;
     readonly speed: number;
+    readonly angle: number;
     opacity?: number;
     constructor(config: baseConfig);
     draw(ctx: CanvasRenderingContext2D): void;
@@ -68,6 +70,7 @@ declare class RedPacket {
     protected finished: boolean;
     protected moveAnimation: any;
     readonly imgUrl: string;
+    readonly angle: number;
     readonly rainType: {
         score: number;
         speed: number;
@@ -85,6 +88,7 @@ declare class RedPacket {
         container: string;
         countdownTime: number;
         remainTime: number;
+        angle: number;
         onDuration?: (remainTime: number, count: number) => void;
         onEnded?: (count: number) => void;
         onStart?: () => void;

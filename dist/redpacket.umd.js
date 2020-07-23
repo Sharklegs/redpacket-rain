@@ -1,6 +1,6 @@
 /*!
- * @autots/redpacket v2.0.0
- * Last Modified @ 2020-7-22 5:28:22 ├F10: PM┤
+ * @autots/redpacket v2.1.0
+ * Last Modified @ 2020-7-23 5:11:08 ├F10: PM┤
  * Released under the MIT License.
  */
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -229,7 +229,7 @@ function isIntersect(point, shape, ignore) {
 }
 var Packet = /** @class */ (function () {
     function Packet(config) {
-        var type = config.type, x = config.x, y = config.y, img = config.img, speed = config.speed, _a = config.ratio, ratio = _a === void 0 ? 1 : _a;
+        var type = config.type, x = config.x, y = config.y, img = config.img, speed = config.speed, _a = config.ratio, ratio = _a === void 0 ? 1 : _a, angle = config.angle;
         this.type = type;
         this.x = x; // x轴位置
         this.y = y; // y轴位置
@@ -238,11 +238,12 @@ var Packet = /** @class */ (function () {
         this.height = img.height / 2 * this.ratio; // 红包种类
         this.img = img.imgDom; // 前面缓存好的金币图片
         this.speed = speed; // 金币的下落速度
+        this.angle = angle;
     }
     Packet.prototype.draw = function (ctx) {
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
         this.y += this.speed;
-        this.x -= this.speed * 0.3;
+        this.x -= this.speed * this.angle;
     };
     return Packet;
 }());
@@ -301,6 +302,7 @@ var RedPacket = /** @class */ (function () {
         }
         this.canvasDom = canvas;
         this.imgUrl = config.imgUrl;
+        this.angle = config.angle || 0.3;
         this.rainType = config.rainType; // 红包雨种类
         this.ctx = canvas.getContext('2d');
         this.ctx.scale(devicePixelRatio, devicePixelRatio);
@@ -434,6 +436,7 @@ var RedPacket = /** @class */ (function () {
         var boundary = window.innerWidth - 1200 <= 200 ? 100 : (window.innerWidth - 1200) / 2;
         var count = Math.floor(random(1, 4));
         var meteor = new Meteor({
+            angle: 0.3,
             x: random(boundary, window.innerWidth - boundary),
             y: -10,
             img: this.imgList.meteor,
@@ -445,6 +448,7 @@ var RedPacket = /** @class */ (function () {
             var randomNum = random(0, 10);
             var type = this.getTypeByRatio(randomNum);
             var rain = new Packet({
+                angle: this.angle,
                 type: type,
                 x: random(boundary, window.innerWidth - boundary),
                 y: -10,
