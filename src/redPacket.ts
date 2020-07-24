@@ -189,8 +189,11 @@ class RedPacket {
   protected rainList: (Packet | Meteor | Firework)[];
   protected finished: boolean;
   protected moveAnimation: any;
+  readonly countdownPos: {fontsize: number, x: number, y: number};
+  readonly scorePos: {fontsize: number, x: number, y: number};
   readonly imgUrl: string;
   readonly angle: number;
+  readonly boundary: number;
   readonly rainType: { score: number; speed: number; useless?: number; ratio: number; }[];
 
   constructor(config: {
@@ -198,8 +201,11 @@ class RedPacket {
     rainType: ({ score: number; speed: number; useless?: number; ratio: number; })[],
     container: string,
     countdownTime: number,
+    countdownPos?: {fontsize: number, x: number, y: number},
+    scorePos?: {fontsize: number, x: number, y: number},
     remainTime: number,
     angle: number,
+    boundary: number,
     onDuration?: (remainTime: number, count: number) => void,
     onEnded?: (count: number) => void,
     onStart?: () => void,
@@ -215,10 +221,14 @@ class RedPacket {
     this.canvasDom = canvas;
     this.imgUrl = config.imgUrl;
     this.angle = config.angle || 0.3;
+    this.boundary = config.boundary || 0;
     this.rainType = config.rainType; // 红包雨种类
     this.ctx = canvas.getContext('2d');
     this.ctx.scale(devicePixelRatio, devicePixelRatio);
+    this.ctx.textBaseline = 'top';
     this.countdownTime = config.countdownTime || 0;
+    this.countdownPos = config.countdownPos || {fontsize: 28, x: 0, y: 0};
+    this.scorePos = config.scorePos || {fontsize: 40, x: 0, y: 0};
     this.remainTime = config.remainTime || 30;
     this.onDurationCallBack = config.onDuration || function () {};
     this.onEndedCallBack = config.onEnded || function () {};
@@ -355,7 +365,7 @@ class RedPacket {
 
   protected add() {
     // 一次落下 随机 1-3个
-    const boundary = window.innerWidth - 1200 <= 200 ? 100 : (window.innerWidth - 1200) / 2;
+    const boundary = this.boundary;
     const count = Math.floor(random(1, 4));
     const meteor = new Meteor({
       angle: 0.3,
@@ -369,12 +379,13 @@ class RedPacket {
     for (let i = 0; i < count; i++) {
       const randomNum = random(0, 10);
       const type = this.getTypeByRatio(randomNum);
+      const img = this.imgList.rain[type];
       const rain = new Packet({
         angle: this.angle,
         type,
-        x: random(boundary, window.innerWidth - boundary),
+        x: random(boundary, window.innerWidth - boundary - (img.width - (this.rainType[type].useless || 0)) / 2),
         y: -10,
-        img: this.imgList.rain[type],
+        img,
         speed: random(1, 3) + this.rainType[type].speed,
       });
       this.rainList.push(rain);
@@ -425,12 +436,12 @@ class RedPacket {
   }
 
   protected remain() {
-    this.ctx.font = '28px DINAlternate-Bold';
+    this.ctx.font = `${this.countdownPos.fontsize}px DINAlternate-Bold`;
     // // 设置颜色
     this.ctx.fillStyle = '#fff';
     // // 绘制文字（参数：要写的字，x坐标，y坐标）
-    const xPos = window.innerWidth - 1200 > 0 ? (window.innerWidth - 1200) / 2 : 0;
-    this.ctx.fillText(`剩余：${this.remainTime}s`, xPos, 115);
+    // const xPos = window.innerWidth - 1200 > 0 ? (window.innerWidth - 1200) / 2 : 10;
+    this.ctx.fillText(`剩余：${this.remainTime}s`, this.countdownPos.x || 0, this.countdownPos.y || 0);
   }
 
   close() {
@@ -439,21 +450,21 @@ class RedPacket {
 
   protected counting() {
     const img = this.imgList.countBg;
-    const imgXPos = (window.innerWidth - img.width / 2) / 2 - 40;
+    // const imgXPos = (window.innerWidth - img.width / 2) / 2 - 40;
     this.ctx.drawImage(
       img.imgDom,
-      imgXPos,
-      70,
+      this.scorePos.x,
+      this.scorePos.y,
       img.width / 2,
       img.height / 2,
     );
     this.ctx.shadowColor = 'rgba(228,57,28,1)';
     this.ctx.shadowBlur = 20;
-    this.ctx.font = 'bold 44px bold';
+    this.ctx.font = `bold ${this.scorePos.fontsize}px bold`;
     // // 设置颜色
     this.ctx.fillStyle = '#fff';
     // // 绘制文字（参数：要写的字，x坐标，y坐标）
-    this.ctx.fillText(String(this.count), imgXPos + img.width / 2, 120);
+    this.ctx.fillText(String(this.count), this.scorePos.x + img.width / 2, this.scorePos.y + (img.height / 2 - this.scorePos.fontsize) / 2);
     this.ctx.shadowBlur = 0;
   }
 }

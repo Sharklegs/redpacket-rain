@@ -6,6 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
   <style>
+  * {
+    margin: 0;
+    padding: 0;
+  }
   canvas{
     background: #000;
   }
@@ -18,7 +22,9 @@
   new AutoTs.RedPacket({
     imgUrl: '//s.autoimg.cn/www/site/livechannel/images/',
     container: 'test',
-    countdownTime: 5,
+    countdownTime: 2,
+    countdownPos: {fontsize: 14, x: 10, y: 10},
+    scorePos: {fontsize: 44, x: 100, y: 0},
     remainTime: 10,
     rainType: [
       { score: 1, speed: 1, ratio: 7 },
@@ -26,7 +32,7 @@
       { score: 3, speed: 5, useless: 70, ratio: 1 }
     ],
     angle: 0.01,
-    event: 'click',
+    boundary: 0,
     onDuration(time, count) {
       console.log(time, count);
     },
